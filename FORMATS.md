@@ -210,10 +210,15 @@ data structure containing all the world's metadata.
 
 #### Tile data
 
-The {1, X, Y} value contains three bytes followed by the data for 32×32
-tiles. The purpose of the three bytes is currently unknown.
+The {1, X, Y} value contains a three-byte header followed by the data for 32×32
+tiles. Although the purpose of the three bytes is currently unknown, it
+appears as though the last byte of the header gives the length of each
+of the following tile byte sequences. This value appears to always be
+greater than the actual length by 2.
 
-A single tile is made up of 30 bytes of binary data:
+A single tile is made up of the following binary data. This data is usually
+30 or 31 bytes long, with length determined by the third byte in the
+chunk header, as explained above.
 
 | Field #  | Bytes | Type     | Description
 | -------: | ----: | -------- | -----------
@@ -236,7 +241,7 @@ A single tile is made up of 30 bytes of binary data:
 | 17       | 28    | `uint8`  | "Biome"⁴
 | 18       | 29    | `uint8`  | "Environment Biome"⁴
 | 19       | 30    | `bool`   | Indestructible (tree/vine base)
-| 20       | 31    | `unknown`| Unknown?
+| 20       | 31    | `unknown`| Unknown, not always present.
 
 ¹ Refers to a material by its id. Additional constants:
 
